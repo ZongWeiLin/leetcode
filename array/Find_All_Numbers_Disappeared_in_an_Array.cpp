@@ -37,7 +37,17 @@ int* findDisappearedNumbers(int* nums, int numsSize)
     int count=0;
     int *ptr=(int*)malloc(count*sizeof(int));
     int i=0,k=0,j=0;
-    int max=nums[numsSize-1];
+    int max=numsSize+1;
+
+    int lastindex=0;
+    for(int i=1;i<numsSize;i++)
+    {
+        if(nums[i]!=nums[lastindex])
+        {
+            nums[lastindex+1]=nums[i];
+            lastindex++;
+        }
+    }
 
     for(i=1;i<max;i++)
     {
@@ -54,6 +64,8 @@ int* findDisappearedNumbers(int* nums, int numsSize)
 
     return ptr;
 }
+
+
 
 int main(void)
 {
