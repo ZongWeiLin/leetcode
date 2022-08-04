@@ -31,40 +31,74 @@ void quik_sort(int *nums,int left, int right)
 
 }
 
+//method1//
+//先把陣列排序好之後，之後把重複的element移除並將剩餘的往前擺//
+//最後在由1至陣列大小n找陣列裡面沒有出現的數字//
+
+// int* findDisappearedNumbers(int* nums, int numsSize)
+// {
+//     quik_sort(nums,0,numsSize-1);
+//     int count=0;
+//     int *ptr=(int*)malloc(count*sizeof(int));
+//     int i=0,k=0,j=0;
+//     int max=numsSize+1;
+
+//     int lastindex=0;
+//     for(int i=1;i<numsSize;i++)
+//     {
+//         if(nums[i]!=nums[lastindex])
+//         {
+//             nums[lastindex+1]=nums[i];
+//             lastindex++;
+//         }
+//     }
+
+//     for(i=1;i<max;i++)
+//     {
+//         if(nums[j]==i)
+//             j++;
+//         else
+//         {
+//             count++;
+//             ptr=(int*)realloc(ptr,count*sizeof(int));
+//             ptr[k]=i;
+//             k++;
+//         }
+//     }
+
+//     return ptr;
+// }
+
 int* findDisappearedNumbers(int* nums, int numsSize)
 {
-    quik_sort(nums,0,numsSize-1);
-    int count=0;
-    int *ptr=(int*)malloc(count*sizeof(int));
-    int i=0,k=0,j=0;
-    int max=numsSize+1;
-
-    int lastindex=0;
-    for(int i=1;i<numsSize;i++)
+    
+    int *ptr=(int*)malloc(numsSize*sizeof(int));
+    int *record_arr=(int*)calloc(numsSize+1,sizeof(int));
+    //用來記錄array裡面有哪些數字，有出現的對應的index值+1//
+    
+    int index;
+    for(int i=0;i<numsSize;i++)
     {
-        if(nums[i]!=nums[lastindex])
-        {
-            nums[lastindex+1]=nums[i];
-            lastindex++;
-        }
+        index=nums[i];
+        record_arr[index]+=1;
     }
 
-    for(i=1;i<max;i++)
+    int k=0;
+    
+    for(int i=1;i<(numsSize+1);i++)
     {
-        if(nums[j]==i)
-            j++;
-        else
+        if(record_arr[i]==0)
         {
-            count++;
-            ptr=(int*)realloc(ptr,count*sizeof(int));
             ptr[k]=i;
             k++;
-        }
+        }    
     }
-
+    
+    free(record_arr);
+    
     return ptr;
-}
 
+}
 
 
 int main(void)
@@ -77,6 +111,7 @@ int main(void)
     {
         printf("%d\n",ptr[i]);
     }
+
     system("pause");
     return 0;
 }
