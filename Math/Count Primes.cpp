@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+//method1//
+//用試除法來確認每個數字是不是質數//
 bool is_prime(int x)
 {
     if(x<2)return 0;
@@ -30,9 +33,39 @@ int countPrimes(int n)
 }
 
 
+//method2//
+//用埃拉托斯特尼篩法//
+//透過把質數的倍數的數值剔除掉，來更快的篩取質數//
+//用hash table來記錄//
+
+int count_Primes_v2(int n)
+{
+    int count=0;
+    char *hash=(char*)calloc(n+1,sizeof(char));
+    int i,j;
+    
+    if(n>2)count++;
+
+    //如果數字大於2的話，代表偶數的部分都可以篩掉了//
+    //所以從3開始之後只需要考慮基數的部分//
+    for(i=3;i<n;i+=2)
+    {
+        if(hash[i]!=true)
+        {
+            count++;
+            for(j=i;j<n;j+=i)
+            {
+                hash[j]=true;
+            }
+        }
+    }
+
+    return count;
+}
+
 int main(void)
 {
-    int val=countPrimes(10);
+    int val=count_Primes_v2(3);
 
     printf("%d\n",val);  
     system("pause");
